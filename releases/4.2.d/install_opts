@@ -1,0 +1,12 @@
+mode=unattended
+# Need to install java and openoffice to avoid compatibility problems
+enable-components=javaalfresco,alfrescosharepoint,alfrescowcmqs,libreofficecomponent
+disable-components=postgres
+
+# Install location
+prefix=/opt/alfresco_demo
+
+alfresco_admin_password=admin
+
+# Don't install init scripts
+baseunixservice_install_as_service=0

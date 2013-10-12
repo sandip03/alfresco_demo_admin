@@ -1,0 +1,3 @@
+After running backup_demo.sh, this directory contained one a dump of the DB:
+
+alfresco_42d.psql

@@ -1,0 +1,6 @@
+After running backup_demo.sh, this directory contained a copy of alf_data:
+
+contentstore
+contentstore.deleted
+keystore
+solr

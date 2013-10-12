@@ -1,0 +1,5 @@
+Packages that must be installed:
+
+default-jdk
+postgresql
+libpg-java: PostgreSQL JDBC driver
