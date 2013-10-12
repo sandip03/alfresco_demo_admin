@@ -27,6 +27,8 @@ Dependencies
 You need to download the Alfresco binary installer, put it in the correct
 releases directory, and update the paths in the helper script.
 
+The scripts currently work on a Fedora 19 install.
+
 The scripts assume that an external PostgreSQL database is supposed to be used,
 rather than the internal Alfresco one. It modifies pg_hba.conf to have correct
 access.

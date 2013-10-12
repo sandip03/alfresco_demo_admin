@@ -1,8 +1,8 @@
 #!/bin/bash
 # Start services that are required to run an Alfresco Demo
 
-POSTGRES_VER="9.1"
-POSTGRES_INIT="/etc/init.d/postgresql"
+PGHBA_PATH="/var/lib/pgsql/data/pg_hba.conf"
+POSTGRES_INIT="postgresql.service"
 ALFS_DIR="/opt"
 USER="richard" # used to chown so we don't have to be root all the time
 
@@ -26,8 +26,8 @@ function check_psql_for_project {
 
 function start_postgres_if_needed {
   echo "Making sure that PostgreSQL is running . . ."
-  if ! sudo $POSTGRES_INIT status | grep online; then
-    sudo $POSTGRES_INIT start
+  if ! sudo systemctl status $POSTGRES_INIT | grep running; then
+    sudo systemctl start $POSTGRES_INIT
   fi
 }
 
@@ -54,15 +54,15 @@ function setup_database_db {
     echo "Database exists"
   fi
 
-  if ! su_postgres "grep \" ${PROJECT_NAME} \" /etc/postgresql/${POSTGRES_VER}/main/pg_hba.conf"; then
+  if ! su_postgres "grep \" ${PROJECT_NAME} \" ${PGHBA_PATH}"; then
     echo "Adding to pg_hba.conf"
     # I can't get this to only affect the first occurance, so watch out for
     # multiple "Alfresco_Demos" in the file.
     sudo sed -i "/Alfresco_Demos/a \
 # For ${PROJECT_NAME} \\
 local  ${PROJECT_NAME}       ${PROJECT_NAME}                                    md5"\
-      /etc/postgresql/${POSTGRES_VER}/main/pg_hba.conf
-    sudo $POSTGRES_INIT reload
+      ${PGHBA_PATH}
+    sudo systemctl reload $POSTGRES_INIT
   else
     echo "pg_hba.conf already has ${PROJECT_NAME} info"
   fi
@@ -95,8 +95,8 @@ function cleanup_database {
   su_postgres "dropuser ${PROJECT_NAME}"
 
   echo "Cleaning pg_hba.conf"
-  sudo sed -i /\ ${PROJECT_NAME}\ /d /etc/postgresql/${POSTGRES_VER}/main/pg_hba.conf
-  sudo $POSTGRES_INIT reload
+  sudo sed -i /\ ${PROJECT_NAME}\ /d ${PGHBA_PATH}
+  sudo systemctl reload $POSTGRES_INIT
 }
 
 
