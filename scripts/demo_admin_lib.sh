@@ -268,6 +268,12 @@ function setup_demo {
     echo "Alfresco directory exists"
   fi
 
+  # Allow root to run alfresco.sh
+  if grep "Avoid root execution" ${ALF_DIR}/alfresco.sh; then
+    echo "Allowing root execution"
+    sed -i "/Avoid root execution/,+6d" ${ALF_DIR}/alfresco.sh
+  fi
+ 
   if $db_created && $dir_created; then
     populate_demo_data ${PROJECT_NAME} ${ALF_RELEASE_DIR} ${ALF_DIR}
   fi
