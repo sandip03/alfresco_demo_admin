@@ -60,7 +60,8 @@ function setup_database_db {
     # multiple "Alfresco_Demos" in the file.
     sudo sed -i "/Alfresco_Demos/a \
 # For ${PROJECT_NAME} \\
-local  ${PROJECT_NAME}       ${PROJECT_NAME}                                    md5"\
+local  ${PROJECT_NAME}    ${PROJECT_NAME}                   md5 \\
+host   ${PROJECT_NAME}    ${PROJECT_NAME}     127.0.0.1/32  md5 "\
       ${PGHBA_PATH}
     sudo systemctl reload $POSTGRES_INIT
   else
